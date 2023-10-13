@@ -1,95 +1,84 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-class Search extends Component {
-  state = {
-    search: "",
-    type: "all",
-  };
+const Search = (props) => {
+  const { searchMovies = Function.prototype } = props;
+  const [search, setSearch] = useState("");
+  const [type, setType] = useState("all");
 
-  handleKey = (event) => {
+  const handleKey = (event) => {
     if (event.key === "Enter") {
-      this.props.searchMovies(this.state.search, this.state.type);
+      searchMovies(search, type);
     }
   };
-  handleFilter = (event) => {
-    this.setState(
-      () => ({
-        type: event.target.dataset.type,
-      }),
-      () => {
-        this.props.searchMovies(this.state.search, this.state.type);
-      }
-    );
+  const handleFilter = (event) => {
+    setType(event.target.dataset.type);
+    searchMovies(search, event.target.dataset.type);
   };
 
-  render() {
-    return (
-      <>
-        <div className="row">
-          <div className="col s12">
-            <div className="input-field">
-              <input
-                type="search"
-                className="validate"
-                placeholder="search"
-                value={this.state.search}
-                onChange={(e) => this.setState({ search: e.target.value })}
-                onKeyDown={this.handleKey}
-              />
-            </div>
-            <button
-              className="btn search-btn"
-              onClick={() =>
-                this.props.searchMovies(this.state.search, this.state.type)
-              }
-            >
-              Search
-            </button>
+  return (
+    <>
+      <div className="row">
+        <div className="col s12">
+          <div className="input-field">
+            <input
+              type="search"
+              className="validate"
+              placeholder="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={handleKey}
+            />
           </div>
+          <button
+            className="btn search-btn"
+            onClick={() => searchMovies(search, type)}
+          >
+            Search
+          </button>
         </div>
-        <div>
-          <p>
-            <label>
-              <input
-                value={this.state.type}
-                onChange={this.handleFilter}
-                data-type="all"
-                name="type"
-                type="radio"
-                checked={this.state.type === "all"}
-              />
-              <span>All</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input
-                value={this.state.type}
-                onChange={this.handleFilter}
-                data-type="movie"
-                name="type"
-                type="radio"
-                checked={this.state.type === "movie"}
-              />
-              <span>Movies only</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input
-                value={this.state.type}
-                onChange={this.handleFilter}
-                data-type="series"
-                name="type"
-                type="radio"
-                checked={this.state.type === "series"}
-              />
-              <span>Series only</span>
-            </label>
-          </p>
-        </div>
-      </>
-    );
-  }
-}
+      </div>
+      <div>
+        <p>
+          <label>
+            <input
+              value={type}
+              onChange={handleFilter}
+              data-type="all"
+              name="type"
+              type="radio"
+              checked={type === "all"}
+            />
+            <span>All</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input
+              value={type}
+              onChange={handleFilter}
+              data-type="movie"
+              name="type"
+              type="radio"
+              checked={type === "movie"}
+            />
+            <span>Movies only</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input
+              value={type}
+              onChange={handleFilter}
+              data-type="series"
+              name="type"
+              type="radio"
+              checked={type === "series"}
+            />
+            <span>Series only</span>
+          </label>
+        </p>
+      </div>
+    </>
+  );
+};
 export default Search;
