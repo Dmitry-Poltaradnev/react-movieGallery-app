@@ -23,7 +23,7 @@ const Search = (props) => {
             <input
               type="search"
               className="validate"
-              placeholder="search"
+              placeholder="Search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={handleKey}
@@ -37,7 +37,7 @@ const Search = (props) => {
           </button>
         </div>
       </div>
-      <div>
+      <div className="searchBtnWrapper">
         <p>
           <label>
             <input
